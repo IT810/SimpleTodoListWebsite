@@ -1,7 +1,77 @@
-﻿
-@{
-    ViewBag.Title = "Login";
+﻿@{ 
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-<h2>Login</h2>
+    <title>Đăng nhập</title>
 
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/style.css" rel="stylesheet">
+    <link href="~/Content/assets/css/style-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="login-page">
+        <div class="container">
+            <form class="form-login" action="/Home/Login" method="post">
+                <h2 class="form-login-heading">Đăng nhập ngay!</h2>
+                <div class="login-wrap">
+                    <input type="text" class="form-control" name="email" placeholder="Nhập email">
+                    <br>
+                    <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu">
+                    <label class="checkbox">
+                        <span class="pull-right">
+                            <a data-toggle="modal" href="#myModal"> Quên mật khẩu</a>
+                        </span>
+                    </label>
+                    <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> ĐĂNG NHẬP</button>
+                    <br />
+                    <div class="registration">
+                        Vẫn chưa có tài khoản?
+                        <br />
+                        <a class="" href="#">
+                            Tạo một tài khoản
+                        </a>
+                    </div>
+                </div>
+                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Quên mật khẩu ?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Nhập địa chỉ email của bạn dưới đây để đặt lại mật khẩu của bạn.</p>
+                                <input type="text" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                                <button class="btn btn-theme" type="button">Nộp</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/Content/assets/js/jquery.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/assets/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+        $.backstretch("/Content/assets/img/loginbg.jpg", {speed: 500});
+    </script>
+
+</body>
+</html>
