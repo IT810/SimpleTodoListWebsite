@@ -1,5 +1,8 @@
-﻿<section class="wrapper" ng-app="ma">
-    <div class="row mt" ng-controller="mc">
+﻿@{ 
+    ViewBag.Title = "Danh sách nhiệm vụ";
+}
+<section class="wrapper">
+    <div class="row mt">
         <div class="col-lg-4">
             <div class="form-panel">
                 <h4 class="mb"><i class="fa fa-angle-right"></i> Thêm nhiệm vụ</h4>
@@ -23,7 +26,9 @@
                         <ul class="task-list" ng-init="GetAllTasks()">
                             <li ng-repeat="item in tasks" class="{{(item.IsDone == true) ? 'task-done' : ''}}">
                                 <div class="task-checkbox">
-                                    <input type="checkbox" class="list-child" value="" />
+                                    <span>
+                                        #{{$index + 1}}
+                                    </span>
                                 </div>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{item.Description}}</span>
@@ -31,7 +36,7 @@
                                         {{(item.IsDone == true) ? "Done" : "To-do"}}
                                     </span>
                                     <div class="pull-right hidden-phone">
-                                        <button class="btn btn-success btn-xs" ng-click="UpdateStatus(item.Id)"><i class=" fa fa-check"></i></button>
+                                        <button class="btn {{(item.IsDone == true) ? 'btn-warning' : 'btn-success'}} btn-xs" ng-click="UpdateStatus(item.Id)"><i class="fa {{(item.IsDone == false) ? 'fa-check' : 'fa-times'}}"></i></button>
                                         <button class="btn btn-primary btn-xs" ng-click="UpdateTask(item)"><i class="fa fa-pencil"></i></button>
                                         <button class="btn btn-danger btn-xs" ng-click="DeleteTask(item.Id)"><i class="fa fa-trash-o "></i></button>
                                     </div>

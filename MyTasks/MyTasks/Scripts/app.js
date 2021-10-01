@@ -12,6 +12,17 @@ app.controller('mc', function ($scope, $http) {
         });
     }
 
+    $scope.GetAllDeleted = function () {
+        $http({
+            method: "get",
+            url: "/Home/GetAllDeleted"
+        }).then(function (response) {
+            $scope.deletedtasks = response.data;
+        }, function () {
+            alert("Lỗi !!!");
+        });
+    }
+
     $scope.AddTask = function () {
         if ($scope.desc == "" || $scope.desc == null) {
             alertify.alert("Thông báo","Vui lòng nhập đầy đủ thông tin!", function () {});
@@ -82,6 +93,42 @@ app.controller('mc', function ($scope, $http) {
                     url: "/Home/DeleteTask/" + Id,
                 }).then(function (response) {
                     $scope.GetAllTasks();
+                    alertify.success('Xóa thành công !!!');
+                }, function () {
+                    alertify.error('Lỗi !!!');
+                });
+            },
+            function () {
+                alertify.error('Đã hủy');
+            });
+    }
+
+    $scope.Undo = function (Id) {
+        alertify.confirm("Thông báo", "Bạn có hoàn tác không ???",
+            function () {
+                $http({
+                    method: "get",
+                    url: "/Home/Undo/" + Id,
+                }).then(function (response) {
+                    $scope.GetAllDeleted();
+                    alertify.success('Hoàn tác thành công !!!');
+                }, function () {
+                    alertify.error('Lỗi !!!');
+                });
+            },
+            function () {
+                alertify.error('Đã hủy');
+            });
+    }
+
+    $scope.DeleteCompletely = function (Id) {
+        alertify.confirm("Thông báo", "Bạn có muốn xóa hoàn toàn không ???",
+            function () {
+                $http({
+                    method: "get",
+                    url: "/Home/DeleteCompletely/" + Id,
+                }).then(function (response) {
+                    $scope.GetAllDeleted();
                     alertify.success('Xóa thành công !!!');
                 }, function () {
                     alertify.error('Lỗi !!!');

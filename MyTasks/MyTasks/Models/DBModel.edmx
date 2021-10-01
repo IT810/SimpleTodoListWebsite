@@ -14,6 +14,7 @@
           <Property Name="IsDelete" Type="bit" />
           <Property Name="IsDone" Type="bit" />
           <Property Name="UserId" Type="int" />
+          <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -49,24 +50,13 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MyDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Tasks" EntityType="MyDBModel.Task" />
           <EntitySet Name="Users" EntityType="MyDBModel.User" />
+          <EntitySet Name="Tasks" EntityType="MyDBModel.Task" />
           <AssociationSet Name="FK__Task__UserId__3C69FB99" Association="MyDBModel.FK__Task__UserId__3C69FB99">
             <End Role="User" EntitySet="Users" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Task">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsDelete" Type="Boolean" />
-          <Property Name="IsDone" Type="Boolean" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="MyDBModel.FK__Task__UserId__3C69FB99" FromRole="Task" ToRole="User" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -76,6 +66,18 @@
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Tasks" Relationship="MyDBModel.FK__Task__UserId__3C69FB99" FromRole="User" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="IsDone" Type="Boolean" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="MyDBModel.FK__Task__UserId__3C69FB99" FromRole="Task" ToRole="User" />
         </EntityType>
         <Association Name="FK__Task__UserId__3C69FB99">
           <End Type="MyDBModel.User" Role="User" Multiplicity="0..1" />
@@ -95,23 +97,24 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MyDBModelStoreContainer" CdmEntityContainer="MyDBEntities">
-          <EntitySetMapping Name="Tasks">
-            <EntityTypeMapping TypeName="MyDBModel.Task">
-              <MappingFragment StoreEntitySet="Task">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MyDBModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="MyDBModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

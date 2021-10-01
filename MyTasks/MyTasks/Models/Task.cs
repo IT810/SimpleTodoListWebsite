@@ -19,6 +19,7 @@ namespace MyTasks.Models
         public Nullable<bool> IsDelete { get; set; }
         public Nullable<bool> IsDone { get; set; }
         public Nullable<int> UserId { get; set; }
+        public Nullable<System.DateTime> DeletedDate { get; set; }
     
         public virtual User User { get; set; }
     }

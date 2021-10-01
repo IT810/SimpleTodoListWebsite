@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Lịch sử xóa";
+}
+<section class="wrapper">
+    <div class="row mt">
+        <div class="col-md-12">
+            <section class="task-panel tasks-widget">
+                <div class="panel-heading">
+                    <div class="pull-left"><h4><i class="fa fa-history"></i> Lịch sử xóa</h4></div>
+                    <br>
+                </div>
+                <div class="panel-body">
+                    <div class="task-content">
+                        <ul class="task-list" ng-init="GetAllDeleted()">
+                            <li ng-repeat="item in deletedtasks">
+                                <div class="task-checkbox">
+                                    <span>
+                                        #{{$index + 1}}
+                                    </span>
+                                </div>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{item.Description}}</span>
+                                    <div class="pull-right hidden-phone">
+                                        <button class="btn btn-primary btn-xs" ng-click="Undo(item.Id)"><i class="fa fa-undo"></i></button>
+                                        <button class="btn btn-danger btn-xs" ng-click="DeleteCompletely(item.Id)"><i class="fa fa-trash-o "></i></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script src="~/Scripts/app.js"></script>
+}

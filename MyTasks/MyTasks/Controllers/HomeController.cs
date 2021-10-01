@@ -15,7 +15,24 @@ namespace MyTasks.Controllers
         [LoginVerification]
         public ActionResult Index()
         {
+            TempData["lo"] = 1;
             return View();
+        }
+
+        [LoginVerification]
+        public ActionResult DeleteHistory()
+        {
+            TempData["lo"] = 2;
+            return View();
+        }
+
+        [LoginVerification]
+        public ActionResult GetAllDeleted()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            int id = (int)Session["uid"];
+            var tasks = db.Tasks.Where(x => x.IsDelete == true && x.UserId == id).OrderByDescending(x => x.DeletedDate).ToList();
+            return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -37,6 +54,13 @@ namespace MyTasks.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.RemoveAll();
+            return RedirectToAction("Login");
         }
 
         [LoginVerification]
@@ -93,6 +117,26 @@ namespace MyTasks.Controllers
         {
             Task task = db.Tasks.SingleOrDefault(x => x.Id == Id);
             task.IsDelete = true;
+            task.DeletedDate = DateTime.Now;
+            db.SaveChanges();
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [LoginVerification]
+        public ActionResult Undo(int Id)
+        {
+            Task task = db.Tasks.SingleOrDefault(x => x.Id == Id);
+            task.IsDelete = false;
+            task.DeletedDate = null;
+            db.SaveChanges();
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [LoginVerification]
+        public ActionResult DeleteCompletely(int Id)
+        {
+            Task task = db.Tasks.SingleOrDefault(x => x.Id == Id);
+            db.Tasks.Remove(task);
             db.SaveChanges();
             return Json(true, JsonRequestBehavior.AllowGet);
         }

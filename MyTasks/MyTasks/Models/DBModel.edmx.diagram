@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2e57d9b296984f5c82e3e90d27135f36" Name="Diagram1">
-        <EntityTypeShape EntityType="MyDBModel.Task" Width="1.5" PointX="3" PointY="0.875" />
         <EntityTypeShape EntityType="MyDBModel.User" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="MyDBModel.Task" Width="1.5" PointX="3" PointY="0.75" />
         <AssociationConnector Association="MyDBModel.FK__Task__UserId__3C69FB99" />
       </Diagram>
     </edmx:Diagrams>

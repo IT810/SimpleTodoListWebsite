@@ -19,7 +19,7 @@
     <link href="~/Content/alertify/css/alertify.min.css" rel="stylesheet" />
 </head>
 
-<body>
+<body ng-app="ma">
     <section id="container">
         <header class="header black-bg">
             <div class="sidebar-toggle-box">
@@ -28,7 +28,7 @@
             <a href="@Url.Action("Index", "Home")" class="logo"><b>My-Tasks</b></a>
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.html">Đăng xuất</a></li>
+                    <li><a class="logout" href="@Url.Action("Logout", "Home")">Đăng xuất</a></li>
                 </ul>
             </div>
         </header>
@@ -36,25 +36,46 @@
         <aside>
             <div id="sidebar" class="nav-collapse ">
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <p class="centered"><a href="profile.html"><img src="~/Content/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                    <p class="centered"><a><img src="~/Content/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
                     <h5 class="centered">@Session["uname"]</h5>
-                    <li class="mt">
-                        <a href="@Url.Action("Index", "Home")" class="active">
-                            <i class="fa fa-tasks"></i>
-                            <span>Danh sách nhiệm vụ</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Home")">
-                            <i class="fa fa-history"></i>
-                            <span>Lịch sử xóa</span>
-                        </a>
-                    </li>
+
+                    @if ((int)TempData["lo"] == 1)
+                    {
+                        <li class="mt">
+                            <a href="@Url.Action("Index", "Home")" class="active">
+                                <i class="fa fa-tasks"></i>
+                                <span>Danh sách nhiệm vụ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("DeleteHistory", "Home")">
+                                <i class="fa fa-history"></i>
+                                <span>Lịch sử xóa</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if ((int)TempData["lo"] == 2)
+                    {
+                        <li class="mt">
+                            <a href="@Url.Action("Index", "Home")">
+                                <i class="fa fa-tasks"></i>
+                                <span>Danh sách nhiệm vụ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("DeleteHistory", "Home")" class="active">
+                                <i class="fa fa-history"></i>
+                                <span>Lịch sử xóa</span>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </aside>
 
-        <section id="main-content" style="min-height:100vh">
+        <section id="main-content" style="min-height:100vh" ng-controller="mc">
             @RenderBody()
         </section>
         <footer class="site-footer">
