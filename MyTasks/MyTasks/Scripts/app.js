@@ -13,18 +13,82 @@ app.controller('mc', function ($scope, $http) {
     }
 
     $scope.AddTask = function () {
-        $scope.t = new Object();
-        $scope.t.Description = $scope.desc;
+        if ($scope.desc == "" || $scope.desc == null) {
+            alertify.alert("Thông báo","Vui lòng nhập đầy đủ thông tin!", function () {});
+        }
+        else {
+            var type = $("#insert").val();
+            if (type == "Thêm") {
+                $scope.t = new Object();
+                $scope.t.Description = $scope.desc;
+                $http({
+                    method: "post",
+                    url: "/Home/AddTask",
+                    datatype: "json",
+                    data: JSON.stringify($scope.t)
+                }).then(function (response) {
+                    $scope.GetAllTasks();
+                    $scope.desc = "";
+                    alertify.success('Thêm thành công !!!');
+                }, function () {
+                    alert("Lỗi !!!");
+                });
+            }
+            else {
+                $scope.t = new Object();
+                $scope.t.Id = $scope.id;
+                $scope.t.Description = $scope.desc;
+                $http({
+                    method: "post",
+                    url: "/Home/UpdateTask",
+                    datatype: "json",
+                    data: JSON.stringify($scope.t)
+                }).then(function (response) {
+                    $scope.GetAllTasks();
+                    $scope.id = "";
+                    $scope.desc = "";
+                    $("#insert").val("Thêm");
+                    alertify.success('Cập nhật thành công !!!');
+                }, function () {
+                    alertify.error('Lỗi !!!');
+                });
+            }
+        }
+    }
+
+    $scope.UpdateTask = function (item) {
+        $scope.id = item.Id;
+        $scope.desc = item.Description;
+        $("#insert").val("Cập nhật");
+    }
+
+    $scope.UpdateStatus = function (Id) {
         $http({
-            method: "post",
-            url: "/Home/AddTask",
-            datatype: "json",
-            data: JSON.stringify($scope.t)
+            method: "get",
+            url: "/Home/UpdateStatus/" + Id,
         }).then(function (response) {
             $scope.GetAllTasks();
-            $scope.desc = "";
+            alertify.success('Cập nhật tình trạng thành công !!!');
         }, function () {
-            alert("Lỗi !!!");
+            alertify.error('Lỗi !!!');
         });
+    }
+
+    $scope.DeleteTask = function(Id) {
+        alertify.confirm("Thông báo", "Bạn có muốn xóa không ???",
+            function () {
+                $http({
+                    method: "get",
+                    url: "/Home/DeleteTask/" + Id,
+                }).then(function (response) {
+                    $scope.GetAllTasks();
+                    alertify.success('Xóa thành công !!!');
+                }, function () {
+                    alertify.error('Lỗi !!!');
+                });
+            },
+            function () {
+                alertify.error('Đã hủy');
+            });
     }
 });

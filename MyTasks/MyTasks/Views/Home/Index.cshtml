@@ -1,35 +1,39 @@
 ﻿<section class="wrapper" ng-app="ma">
-    <h3><i class="fa fa-angle-right"></i> Danh sách nhiệm vụ</h3>
     <div class="row mt" ng-controller="mc">
         <div class="col-lg-4">
             <div class="form-panel">
                 <h4 class="mb"><i class="fa fa-angle-right"></i> Thêm nhiệm vụ</h4>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nhập nhiệm vụ..." ng-model="desc">
+                    <input type="hidden" ng-model="id" />
+                    <textarea type="text" rows="5" class="form-control" placeholder="Nhập nhiệm vụ..." ng-model="desc"></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="button" ng-click="AddTask()" class="btn btn-theme btn-block">Thêm</button>
+                    <input type="button" id="insert" ng-click="AddTask()" class="btn btn-theme btn-block" value="Thêm" />
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <section class="task-panel tasks-widget">
+                <div class="panel-heading">
+                    <div class="pull-left"><h4><i class="fa fa-tasks"></i> Danh sách nhiệm vụ</h4></div>
+                    <br>
+                </div>
                 <div class="panel-body">
                     <div class="task-content">
                         <ul class="task-list" ng-init="GetAllTasks()">
-                            <li ng-repeat="item in tasks">
+                            <li ng-repeat="item in tasks" class="{{(item.IsDone == true) ? 'task-done' : ''}}">
                                 <div class="task-checkbox">
                                     <input type="checkbox" class="list-child" value="" />
                                 </div>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{item.Description}}</span>
-                                    <span class="badge bg-theme">
+                                    <span class="badge {{(item.IsDone == true) ? 'bg-success' : 'bg-warning'}}">
                                         {{(item.IsDone == true) ? "Done" : "To-do"}}
                                     </span>
                                     <div class="pull-right hidden-phone">
-                                        <button class="btn btn-success btn-xs"><i class=" fa fa-check"></i></button>
-                                        <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-danger btn-xs" ng-click="DeleteTask()"><i class="fa fa-trash-o "></i></button>
+                                        <button class="btn btn-success btn-xs" ng-click="UpdateStatus(item.Id)"><i class=" fa fa-check"></i></button>
+                                        <button class="btn btn-primary btn-xs" ng-click="UpdateTask(item)"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-danger btn-xs" ng-click="DeleteTask(item.Id)"><i class="fa fa-trash-o "></i></button>
                                     </div>
                                 </div>
                             </li>
